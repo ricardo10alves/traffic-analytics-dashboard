@@ -183,4 +183,4 @@ This project is for portfolio demonstration purposes.
 
 ## 👤 Author
 
-Built as a portfolio project demonstrating full-stack development skills for Junior Software Developer positions.
+Built as a portfolio project demonstrating full-stack development skills.
