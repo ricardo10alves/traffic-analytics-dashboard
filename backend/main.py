@@ -23,8 +23,6 @@ def filter_by_days(records, days: int):
 
 app = FastAPI()
 
-threading.Thread(target=refresh_data, daemon=True).start()
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
@@ -32,6 +30,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+threading.Thread(target=refresh_data, daemon=True).start()
+
 
 @app.get("/api/intersections")
 def get_intersections():
