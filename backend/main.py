@@ -1,4 +1,6 @@
 from datetime import datetime, timedelta
+from fastapi import Request
+from fastapi.responses import Response
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from data_generator import generate_traffic_records, INTERSECTIONS
@@ -30,6 +32,18 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.middleware("http")
+async def add_cors_headers(request: Request, call_next):
+    response: Response = await call_next(request)
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    return response
+
+@app.options("/{path:path}")
+async def options_handler(path: str):
+    return Response(status_code=200)
 
 threading.Thread(target=refresh_data, daemon=True).start()
 
